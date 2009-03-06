@@ -1,0 +1,113 @@
+<%
+	@attribute = att
+	@attribute_index = (params[:index] || @attribute_index || 1).to_i
+	if @attribute.index == nil
+		@attribute.index = @attribute_index - 1;
+	else
+		@attribute_index = @attribute.index + 1
+	end
+%>
+
+<div id="attribute-div-<%=@attribute_index%>">
+
+<% unless @content_editor %>
+<%=image 'minus',  :onclick => "javascript: Element.remove($('attribute-div-#{@attribute_index}'))" %>
+<% end %>
+	
+	<%=@attribute.name%>:
+
+	<%= hidden_field_tag "attribute[#{@attribute_index - 1}][class_name]", @attribute.class_name %>
+	<%= hidden_field_tag "attribute[#{@attribute_index - 1}][name]", @attribute.name %>
+	<%= hidden_field_tag "attribute[#{@attribute_index - 1}][index]", @attribute_index - 1 %>
+
+<%- if(@attribute.class_name.to_s == 'StringPageAttribute') -%>
+	<%= text_field_tag "attribute[#{@attribute_index - 1}][value]", @attribute.value, :maxlength => 100 %> 
+<%- end -%>
+
+<%- if(@attribute.class_name.to_s == 'DatePageAttribute') -%>
+	<% 
+		#Have to set @attribute.id so that text_field and the like turn out right
+		#but doing so messes up our ability to follow foreign key relations... be careful
+		#@attribute_id = @attribute.id;
+		#@attribute.id = @attribute_index - 1; 
+	%>	
+	
+    <script type="text/javascript">
+    new DatetimeToolbocks({ 
+      autoRollOver:false, elementId:"<%="attribute_#{@attribute_index - 1}_value"%>", format:"yyyy-mm-dd", 
+		inputName:"<%="attribute[#{@attribute_index - 1}][value]"%>", showHelp:false, inputValue:"<%=@attribute.value%>",
+      calendarOptions: { }
+    });
+    </script>
+
+	<% #simple version: %>
+	<% # text_field_tag "attribute[#{@attribute_index - 1}][value]", @attribute.value, :size => 10 %>
+	<% #(date example: Date.today) %>
+
+<%- end -%>
+
+<%- if(@attribute.class_name.to_s == 'BooleanPageAttribute') -%>
+	<%= check_box_tag "attribute[#{@attribute_index - 1}][value]", 1, @attribute.value %>
+	<%= hidden_field_tag "attribute[#{@attribute_index - 1}][value]", 0 %>
+<%- end -%>
+
+
+<%- if(@attribute.class_name.to_s == 'UploadedFilePageAttribute') -%>	
+	<%= hidden_field_tag "attribute[#{@attribute_index - 1}][id_to_me]", @attribute.att_value.id %>
+	<input value="<%=@attribute.filename%>" id="filename-<%=@attribute_index - 1%>" disabled="true" size="30"/>
+
+
+	<span id="<%="delete_link_#{@attribute_index - 1}"%>">
+	<%=link_to_remote "Delete", :url => {
+		:action => 'delete_upload_attribute', 
+		:id => @attribute.id, 
+		:index => @attribute_index - 1}, 
+		:confirm => "Are you sure want to delete this file?"%>
+	</span>
+	<span id="<%="upload_link_#{@attribute_index - 1}"%>">
+		<%= link_to "Upload File", "javascript: toggle_upload_popup(#{@attribute_index})", :title => 'Upload File' %>
+	</span>
+	
+<script type="text/javascript">
+	<%- if @attribute.filename -%>
+		Element.hide('<%="upload_link_#{@attribute_index - 1}"%>');
+	<%- else -%>
+		Element.hide('<%="delete_link_#{@attribute_index - 1}"%>');
+	<%- end -%>
+</script>
+
+<%- end -%>
+
+
+<%- if(@attribute.class_name.to_s == 'PageLinkPageAttribute') -%>
+
+<input id="attribute[<%=@attribute_index - 1%>][page_url]" maxlength="100" name="attribute[<%=@attribute_index - 1%>][page_url]" type="text" value="<%= @attribute.page_url%>" onFocus="disable_form_submit();" onBlur="enable_form_submit();" />	
+	<div class="auto_complete" id="page_<%=@attribute_index - 1%>_auto_complete"></div>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	var page_<%=@attribute_index - 1%>_auto_completer = new Ajax.Autocompleter('attribute[<%=@attribute_index - 1%>][page_url]', 'page_<%=@attribute_index - 1%>_auto_complete', '/admin/pages/do/auto_complete_for_page', {})
+	//]]>
+	</script>
+
+<!--
+	<%- if !@attribute.link_to_page.nil? -%>
+		<%=@attribute.link_to_page.title%>
+	<%- else -%>
+		(no page selected)
+	<%- end -%>	
+-->
+
+
+<%- end -%>
+
+
+</div>
+
+<!-- TODO: add a field size limit for string attributes -->
+<!-- TODO: add a file size limit for uploaded files -->
+<!-- TODO: support default value??? -->
+<!-- TODO: support multi-select default values??? -->
+<%-
+@attribute_index += 1;
+-%>

@@ -1,0 +1,17 @@
+<span style="padding: 0 15px;"><a href="javascript:showPreview();">Preview</a></span>
+<% additional_page_scripts do -%>
+    function showPreview() {
+     params = Form.serialize($('page_editor_form'));
+     previewWindow = window.open('', 'preview_page', 'location=no,toolbar=no', true);
+     var req = new Ajax.Request('<%= preview_page_url(:id => @page) %>', 
+     {parameters: params, onSuccess: function(transport){
+      previewWindow.document.write(transport.responseText);
+      previewWindow.document.close(); }
+      });
+    }
+
+function showPreviewSimpleEdition() {
+    previewWindow = window.open('<%= preview_page_url(:id => @page) %>', 'preview_page', 'location=yes,toolbar=yes,resizable=yes,scrollbars=yes', true);
+}
+<% end -%>
+  

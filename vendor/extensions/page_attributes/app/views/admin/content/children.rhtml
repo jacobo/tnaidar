@@ -1,0 +1,23 @@
+<% level = @level + 1 -%>
+<%
+
+if @parent.content_from_template?
+  @parent.inherit_from_page.children.each do |child|
+-%>
+<%= render_node child, :level => level, :expand => 1, :simulated_parent => @parent -%>
+<%
+  end
+end
+
+unless @parent.template?
+  @parent.children.each do |child|
+-%>
+<%= render_node child, :level => level, :expand => 1, :simulated_parent => false -%>
+<%
+  end
+end
+%>
+
+<% #@parent.children.each do |child| -%>
+<% #render_node child, :expand => 1, :level => level %>
+<% #end -%>

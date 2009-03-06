@@ -1,0 +1,391 @@
+body
+{
+	font-family: Arial, sans-serif;	
+	font-size: 12px;
+	color: #444;
+	background: #E0EEE4;
+}
+
+body a
+{
+  color: #5A3D18;
+}
+body a:hover
+{
+  color: #BA0000;
+}
+
+strong {
+	font-weight: bold;
+}
+
+body p{
+	padding: 4px 0px 6px 0px;
+}
+
+h1 {
+	font-family: Georgia, serif;	
+	color: #a00;
+	font-size: 180%;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-family: Georgia, serif;	
+	color: #5A3D1B;
+	font-size: 130%;
+	margin-bottom: 10px;
+}
+
+#wrapper {
+	text-align: left;
+	margin: auto;
+	position: relative;
+	width: 925px;
+}
+
+a.mainnav {
+  font-weight: bold;
+  text-decoration: none;
+  position: relative;
+  color: #14762a;
+}
+a.mainnav:hover {
+  color: #3a3a3a;
+}
+a.mainnav.down {
+  color: #bc0e0e;
+}
+a.mainnav span
+{
+  display: block;
+  text-align: center;
+}
+
+ul#navigation{
+	list-style: none;
+	position: absolute;
+	top: 61px;
+	left: 180px;
+	margin: 0;
+	padding: 0;
+	width: 535px;
+	font-size: 13px;
+}
+
+ul#navigation li{
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+ul#navigation li img{
+	margin: 0;
+	padding: 0;
+}
+
+table#layout_table {
+	position: relative;
+	width: 925px;
+}
+
+/*
+table#layout_table td {
+	border: 1px solid #f00;
+}
+*/
+
+td#layout_top {
+	background: url(../images/bg_top.gif);
+	width: 925px;
+	height: 155px;
+}
+
+td#layout_left {
+	background: url(../images/bg_left.gif) top left;
+	width: 41px;
+}
+
+td#layout_right {
+	background: url(../images/bg_right.gif) top left;
+	width: 44px;	
+}
+
+td#layout_bottom {
+	background: url(../images/bg_bottom.gif); 
+	width: 925px; 
+	height: 41px;
+}
+
+td#layout_bg {
+	background: #D5D7D5 url(../images/bg_repeat.gif) top left; 
+	width: 815px; /*total width sould be 840 */
+	padding: 40px 10px 0px 15px;
+}
+
+ul.footerLeft {
+	float: left;
+	padding: 0px;
+	margin: 10px 0px 20px 25px;
+}
+ul.footerRight {
+	float: right;
+	padding: 0px;
+	margin: 10px 20px 20px 0px;
+}
+body.home ul.footerRight {
+	margin-top: 20px;
+}
+ul.footerLeft li, ul.footerRight li {
+	font-size: 11px;
+	display: inline;
+	padding: 0px 6px 0px 6px;
+	margin: 0px;
+}
+
+
+div.mainLeft,div.spotRight, div.mainRight, div.spotLeft, div.mainFull, div.main, div.mainMiddle{
+	position: relative;
+	padding: 10px 20px 10px 10px;
+	margin-bottom: 40px;	
+}
+div.leftSide{
+	position: relative;
+	padding: 0px 10px 10px 10px;
+	margin-bottom: 40px;	
+}
+
+div.mainFull{
+	width: 783px;
+}
+div.mainMiddle{
+	width: 363px;
+}
+
+table.about {
+	float: right;
+	padding-left: 20px;
+	margin-right: 10px;
+}
+
+table.about td{
+	vertical-align: top;
+}
+
+table.about td div.people{
+	display: block;
+	margin-left: 20px;
+	width: 200px;
+}
+
+div.spotLeftThin{
+	width: 153px;
+	float: left;
+}
+
+div.leftSide {
+	float: left;
+	width: 153px;
+}
+
+div.nav {
+	padding: 10px;
+	margin-top: 10px;
+	display: block;
+}
+div.donate_button{
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+div.donate_button form{
+	margin: 0px;
+	padding: 0px;
+}
+div.donate_button #donate{
+	margin: 0px;
+	padding: 0px;
+}
+
+div.main {
+	width: 573px;
+	float: right;	
+	margin-right: 20px;
+}
+
+div.mainLeft{
+	width: 523px;
+	float: left;
+}
+
+div.spotRight{
+	width: 203px;
+	float: right;
+}
+
+div.mainRight{
+	width: 523px;
+	float: right;
+	margin-right: 20px;
+}
+
+div.spotLeft{
+	width: 203px;
+	float: left;
+}
+
+div.light {
+	background: #E4E4D7;	
+}
+
+div.dark {
+	background: #CCBDB4;	
+}
+
+
+div#captiondiv{
+	width: 770px;
+	margin: 15px 0px 0px 20px;
+	float: left;
+}
+
+div#captiondiv h1{
+	color: #5B3818;
+	font-size: 16px;
+	font-weight: normal;
+	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+#donate{
+	margin: 10px 0px 0px 20px;
+}
+
+div.nav a
+{
+  text-decoration: none;
+}
+div.nav li.pin a
+{
+  text-decoration: underline;
+}
+div.nav ul
+{
+	padding: 1px 1px 1px 1px;
+}
+div.nav ul ul
+{
+	padding: 1px 1px 1px 10px;
+}
+div.nav ul li
+{
+	list-style: url(../images/brown-bullet.gif);
+	padding: 1px 1px 10px 1px;
+	margin-left: 20px;	
+}
+div.nav ul li.pin
+{
+	list-style: url(../images/red-bullet.gif);
+}
+div.nav ul li.pin
+{
+	color: #BA0000;
+	font-weight: bold;
+}
+div.nav ul li.pin a
+{
+	color: #BA0000;
+	font-weight: normal;
+}
+
+div.nav ul.subnav
+{
+  padding: 0px 0px 10px 0px;
+}
+
+div.nav ul.subnav li
+{
+  list-style: none;
+	padding: 1px 1px 3px 1px;
+}
+
+div.nav ul.subnav li a 
+{
+/*  color: #5A3D18;*/
+/*  color: #7A5D38;*/
+}
+
+ul.red
+{	
+	list-style: url(../images/red-bullet.gif);
+}
+
+ul, ul.brown
+{
+	list-style: url(../images/brown-bullet.gif);
+}
+ul
+{
+	padding: 1px 1px 1px 1px;	
+}
+
+ul.red, ul.brown
+{
+	padding: 10px 1px 1px 1px;
+}
+
+ul li, ul.red li, ul.brown li
+{
+	padding: 1px 1px 6px 1px;
+	margin-left: 20px;
+}
+div.main ul{
+	padding-left: 30px;
+}
+
+
+div.roundedcorners .title {
+	position: absolute;
+	top: -12px;
+}
+
+.titleVert {
+	position: absolute;
+	left: -20px;
+}
+
+div.contact {
+	padding: 0px 0px 0px 20px;
+}
+
+div.contact h4{
+	color: #a00;
+}
+
+table.personThumb {
+	position: relative;
+	display: block;
+	margin: 0px 0px 10px 0px;
+}
+
+table.personThumb a{
+	text-decoration: none;
+}
+
+table.personThumb img{
+	border: 2px solid #060;	
+}
+
+table.personThumb h2{
+	white-space: nowrap;
+	padding-top: 10px;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+
+table.personThumb h3{
+	color: #060;
+	margin-left: 10px;
+}
+
+

@@ -1,0 +1,119 @@
+<style>
+	a.new-page {
+		color: #000;
+		font-size: 90%;
+		border: 1px dotted #0f0;
+		background: #afa;
+	}
+	a.new-page:hover {
+		text-decoration: underline !important;
+		color: #008;
+	}
+	.non-editable-page {
+		color: #77a;
+	}
+	/*
+	#content table.index .node .page .editable-page a .title{
+		color: #007;
+		border: 1px dotted #007;
+	}
+	*/
+</style>
+<%
+count = page.children.count
+if(page.content_from_template? and page.inherit_from_page.children)
+	count = page.inherit_from_page.children.count
+end
+if(page.template?)
+	count = 0
+end
+children = count > 0
+expanded = expanded_rows.include?(page.id)
+padding_left = (level * 22) + 4
+
+children_class = children ? (expanded ? ' children-visible' : ' children-hidden') : ' no-children'
+virtual_class = page.virtual? ? " virtual": ""
+
+if children or (page.content_from_template? and (page.inherit_from_page.children.count > 0))
+	expander = image((expanded ? "collapse" : "expand"), :class => "expander", :alt => 'toggle children', :title => '', :align => 'center')
+else
+	expander = ""
+end
+
+#if page.content_from_template? and page.inherit_from_page
+
+
+icon_name = page.virtual? ? "virtual-page" : "page"
+icon = image(icon_name, :class => "icon", :alt => 'page-icon', :title => '', :align => 'center')
+
+title = %{<span class="title">#{ page.title }</span>}
+
+display_name = page.class.display_name
+display_name = page.inherit_from_page.title if page.class_name == "ContentFromTemplatePage"
+page_type = display_name == 'Page' ? '' : %{<small class="info">(#{ display_name })</small>}
+
+spinner = image('spinner.gif', :class => 'busy', :id => "busy-#{page.id}", :alt => "", :title => "", :align => "center", :style => 'display: none;')
+-%>
+    <tr id="page-<%= page.id %>" class="node level-<%= level %><%= children_class %><%= virtual_class %>">
+      <td class="page" style="padding-left: <%= padding_left %>px">
+        <span class="w1">
+
+	<%- if page.template? -%>
+		<%
+			parent_page = page.parent				
+			if simulated_parent
+				parent_page = simulated_parent
+			end
+		%>
+		<a class="new-page" href="<%= url_for(:inherit_from_page => page, :action => 'new_page_from_template', :controller => 'admin/page', :parent_id => parent_page) %>" title="Create a new <%=page.title%>">
+			Add "<%=page.title%>"</a>
+	<%- elsif page.editable_as_content -%>
+		<%= expander %> 
+		<span class="editable-page">
+    	<a href="<%= url_for(:id => page, :action => 'edit_content', :controller => 'admin/page') %>" title="<%= page.url %>"><%= icon %> <%= title %></a> 
+		</span>
+    	<%= page_type %>
+	<%- else -%>
+		<%
+		icon = image('virtual-page', :class => "icon", :alt => 'page-icon', :title => '', :align => 'center')		
+		%>
+		<span class="non-editable-page"> <%= expander %>  <%= icon %> <%= title %></span>
+	<%- end -%>
+          <%= spinner %>
+        </span>
+      </td>
+
+      <td class="status <%= page.status.name.downcase %>-status"><%= page.status.name %></td>
+
+<!--
+      <td class="add-child"><%= link_to image('add-child', :alt => 'add child'), page_new_url(:parent_id => page) %></td>
+-->
+
+<%- if page.content_from_template? -%>
+      <td class="remove"><%= link_to image('remove', :alt => 'remove page'), page_remove_url(:id => page) %></td>
+<%- end -%>
+	
+	<td class="reorder"><%= (page.children.empty? or page.template?) ? '' : link_to(image('reorder', :alt => 'reorder'), page_reorder_children_url(:id => page)) %></td>
+	
+    </tr>
+<% level = level + 1 -%>
+<%
+
+if expanded and page.content_from_template?
+  page.inherit_from_page.children.each do |child|
+-%>
+<%= render_node child, :level => level, :simple => simple, :simulated_parent => page -%>
+<%
+  end
+end
+
+if expanded and not page.template?
+  page.children.each do |child|
+-%>
+<%= render_node child, :level => level, :simple => simple, :simulated_parent => false -%>
+<%
+  end
+end
+
+
+-%>

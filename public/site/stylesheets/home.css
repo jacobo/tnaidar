@@ -1,0 +1,116 @@
+
+#player1 {
+	margin-top: 6px;
+	margin-bottom: 0px;
+}
+
+/*
+ 	Margins for these divs have to be done seperately
+*/
+/* IE margins: */
+/*
+div#videodiv{
+	margin: 40px 0px 0px 18px;
+}
+div#newseventsdiv{
+	margin: 20px 15px 0px 0px;
+}
+div#sponsorshipdiv {
+	margin: 40px 15px 0px 0px;
+}
+*/
+/* Firefox margins: */
+/*
+html>body div#videodiv{
+	margin: 40px 0px 0px 35px;
+}
+html>body div#newseventsdiv{
+	margin: 20px 30px 0px 0px;
+}
+html>body div#sponsorshipdiv {
+	margin: 40px 30px 0px 0px;
+}
+*/
+div#videodiv{
+	margin: 0px 0px 0px 10px;
+}
+html>body div#videodiv {
+	margin: 0px 0px 0px 20px;  
+}
+div#sponsorshipdiv {
+	margin: 0px 7px 10px 0px;
+}
+html>body div#sponsorshipdiv {
+	margin: 0px 17px 10px 0px;
+}
+div#newseventsdiv{
+	margin: 20px 7px 0px 0px;
+}
+html>body div#newseventsdiv {
+	margin: 20px 17px 0px 0px;
+}
+
+div#videodiv{
+	position: relative;
+	background: #E4E4D7;
+	width: 403px;
+	float: left;
+	padding: 10px 10px 0px 10px;
+}
+
+div#sponsorshipdiv {
+	position: relative;
+	background: #C9B1A1;
+/*	background: #D4B9B0; */
+	width: 310px;
+	float: right;
+	padding: 10px 10px 10px 10px;
+}
+
+div#sponsorshipdiv p{
+	padding-top: 10px;
+}
+
+div#sponsorshipdiv .title {
+	position: absolute;
+	top: -15px;
+	left: -5px;
+}
+
+div#sponsorshipdiv table td.kids {
+	margin-top: 10px;
+	width: 173px;
+}
+table td.more_info {
+	padding-top: 5px;
+}
+
+table td.more_info a {
+	float: right;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+table td.more_info a:hover {
+	text-decoration: underline;
+}
+
+div#newseventsdiv{
+	position: relative;
+	background: #C9B1A1;
+/*	background: #D0B9A9; */
+	width: 310px;
+	float: right;
+	padding: 10px 10px 10px 10px;
+}
+
+div#newseventsdiv p{
+	padding-top: 10px;
+}
+
+
+div#newseventsdiv .title {
+	position: absolute;
+	top: -15px;
+	left: 0px;
+}

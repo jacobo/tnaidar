@@ -1,0 +1,28 @@
+<%
+form_tag :action => "save"  do
+	index = 0
+	config.to_hash.each do
+		| key, value |
+		%>		
+		<%= text_field_tag "key[#{index}]", key %> =>
+		<%= text_field_tag "value[#{index}]", value %><br/>		
+		<%
+		index+=1
+	end
+	%>
+	<%= text_field_tag "key[#{index}]", "" %> =>
+	<%= text_field_tag "value[#{index}]", "" %><br/>		
+
+	<%=submit_tag 'Save'%>
+<%
+end
+%>
+
+<br/><br/>
+We should make it so that extensions can define what configs they use. Something like this:
+<pre>
+class ConfigExtension < Radiant::Extension
+	config 'admin.title' => "Gives a Title to the Radiant Admin"
+	config 'page.cache' => "Set to 'yes' to enable caching, set to 'no' to disable caching"
+	...
+</pre>

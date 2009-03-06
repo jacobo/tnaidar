@@ -1,0 +1,33 @@
+<div id="extended-metadata" class="row"<%= meta_visible(:meta) %>>
+    <table class="fieldset" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td><label for="page_slug">Slug</label></td>
+        <td class="field"><%= text_field "page", "slug", :class => 'textbox', :maxlength => 100 %></td>
+      </tr>
+      <tr>
+        <td><label for="page_breadcrumb">Breadcrumb</label></td>
+        <td class="field"><%= text_field "page", "breadcrumb", :class => 'textbox', :maxlength => 160 %></td>
+      </tr>
+      <%= render_region :extended_metadata %>
+    </table>
+    <script type="text/javascript">
+    // <![CDATA[
+      $title = $('page_title');
+      $slug = $('page_slug');
+      $breadcrumb = $('page_breadcrumb');
+      $old_title = $title.value || '';
+      function title_updated() {
+        if ($old_title.toSlug() == $slug.value) $slug.value = $title.value.toSlug();
+        if ($old_title == $breadcrumb.value) $breadcrumb.value = $title.value;
+        $old_title = $title.value;
+      }
+      Event.observe('page_title', 'keyup', title_updated);
+    // ]]>
+    </script>
+</div>
+<p class="more-or-less">
+  <small>
+    <a href="#" onclick="<%= toggle_javascript_for('extended-metadata') %>"<%= meta_visible(:meta_more) %> id="more-extended-metadata">More</a>
+    <a href="#" onclick="<%= toggle_javascript_for('extended-metadata') %>"<%= meta_visible(:meta_less) %> id="less-extended-metadata">Less</a>
+  </small>
+</p>

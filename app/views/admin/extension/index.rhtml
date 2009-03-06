@@ -1,0 +1,45 @@
+<% content_for(:page_css) do -%>
+    table.index h4 {
+      font-size: 110%;
+      margin-top: .5em;
+      margin-bottom: .25em;
+    }
+    table.index p {
+      margin-top: .25em;
+      margin-bottom: .5em;
+    }
+<% end -%>
+
+<h1>Extensions</h1>
+
+<form name="extensions-form" action="<%= extension_update_url %>" method="post">
+  <table id="extensions" class="index" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+      <tr>
+        <th class="extension">Extension</th>
+        <th class="website">Website</td>
+        <th class="version">Version</th>
+        <th class="enabled">Enabled</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% for extension in @extensions -%>
+      <tr class="node level-1">
+        <td class="extension">
+          <h4><%=h extension.extension_name %></h4>
+          <p><%=h extension.description %></p>
+        </td>
+        <td class="website"><%= link_to "Website", extension.url, :target => "_blank" unless extension.url.blank? %></td>
+        <td class="version"><%=h extension.version %></td>
+        <td class="enabled"><input type="checkbox" name="enabled_extensions[]" value="<%= extension.extension_name %>" <%= 'checked="checked"' if extension.enabled? %> /></td>
+      </tr>
+  <% end -%>
+    </tbody>
+  </table>
+  <input type="submit" value="Update" />
+</form>
+<script type="text/javascript">
+// <![CDATA[
+  new RuledTable('extensions');
+// ]]>
+</script>

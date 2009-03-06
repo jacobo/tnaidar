@@ -1,0 +1,10 @@
+#page.remove "asset_#{@asset.id}"
+index = params[:index];
+
+page["attribute[#{index}][id_to_me]"].value = "";
+page["filename-#{index}"].value = "";
+page.hide("delete_link_#{index}");
+page.show("upload_link_#{index}");
+
+#delete value of attribute[index][id_to_me]
+#delete value of filename-index

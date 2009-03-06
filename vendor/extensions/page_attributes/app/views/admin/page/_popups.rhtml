@@ -1,0 +1,36 @@
+<div class="popup" id="add-att-popup" style="display:none;">
+  <div id="busy" class="busy" style="display: none"><%= image_tag 'spinner.gif' %></div>
+  <h3>Add Attribute</h3>
+  <%= form_remote_tag(
+    :url => page_add_attribute_url,
+    :update => "attributes", 
+    :position => :bottom, 
+    :loading => 'part_loading()', 
+    :complete => 'attribute_added()'
+  ) %> 
+    <div>
+		<% @attribute_index = (@attribute_index || 1).to_i %>
+      <%= hidden_field_tag 'index', @attribute_index, :id => 'att-index-field' %>
+      <%= text_field_tag "attribute[name]", "", :id => 'att-name-field', :maxlength => 100 %> 
+      <%= select "attribute", "class_name", PageAttribute.implementing_classes_mapped %></p>
+      <%= submit_tag "Add Attribute", :id => 'add-att-button' %>
+		<%= link_to_function 'Close', "Element.hide('add-att-popup')", :class => 'close-link' %>
+    </div>
+  <%= end_form_tag %>
+</div>
+
+<div class="popup" id="upload-popup" style="display:none;">
+  <div id="busy" class="busy" style="display: none"><%= image_tag 'spinner.gif' %></div>
+  <h3>Upload File</h3>
+	<form enctype="multipart/form-data" action="/admin/pages/upload" method = "post" target = "_hidden" > 
+    <div>
+		Upload file: <%= file_field( "file", "uploaded_data" ) -%>
+		
+      <%= submit_tag "Upload", :id => 'upload-button' %>
+		<%= link_to_function 'Close', "Element.hide('upload-popup')", :class => 'close-link' %>
+    </div>
+	</form>
+</div>
+
+
+  <iframe style="width: 0px; height: 0px; border: 0px" name="_hidden"></iframe> 

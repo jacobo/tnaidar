@@ -1,0 +1,17 @@
+<script type="text/javascript">
+	parent.frame_loaded("<%=@uploaded_file.id%>","<%=@uploaded_file.filename%>");
+</script>
+
+<%
+	# Debug output about the file just uplaoded:
+%>
+<!--
+<%=@uploaded_file.id%>
+<%=@uploaded_file.content_type%>
+<%=@uploaded_file.filename%>
+<%=@uploaded_file.size%>
+<%=@uploaded_file.parent_id%>
+<%=@uploaded_file.thumbnail%>
+<%=@uploaded_file.width%>
+<%=@uploaded_file.height%>
+-->

@@ -1,0 +1,132 @@
+<script src="/javascripts/fckeditor/fckeditor.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+function putIntoWYSIWYG(ElementID)
+{
+	var element = $(ElementID);
+	var oEditor = FCKeditorAPI.GetInstance('fck_textarea') ;
+	oEditor.SetHTML(element.value);
+}
+function takeFromWYSIWYG(ElementID)
+{
+	var element = $(ElementID);
+	var oEditor = FCKeditorAPI.GetInstance('fck_textarea') ;
+	element.value = oEditor.GetXHTML();
+}
+
+function WYSIWYG(part_index)
+{	
+	hideAttributes();
+	$('tab-'+currently_editing).className = "tab";
+	takeFromWYSIWYG('part['+currently_editing+'][content]');
+
+	$('tab-'+part_index).className = "tab here";
+	currently_editing = part_index;
+	putIntoWYSIWYG('part['+part_index+'][content]');
+}
+
+function saveWYSIWYG()
+{
+	takeFromWYSIWYG('part['+currently_editing+'][content]');
+}
+
+function hideAttributes()
+{
+	Element.hide('page-atts');
+	Element.show('pages');
+	if($('tab-'+attributes_tab_index))
+		$('tab-'+attributes_tab_index).className = "tab";
+}
+function showAttributes()
+{
+	Element.hide('pages');
+	Element.show('page-atts');
+	$('tab-'+currently_editing).className = "tab";
+	$('tab-'+attributes_tab_index).className = "tab here";
+}
+
+//]]>
+</script>
+
+<br/>
+<div id="tab-control">
+  <div id="tabs" class="tabs">
+	    <div id="tab-toolbar">
+			&nbsp;
+	    </div>
+<%-
+there_is_at_least_one_part = false;
+first_part = nil;
+first_part_index = nil;
+attributes_tab_index = 0;
+there_is_at_least_one_attribute = (@page.admin_editable_attributes.size > 0);
+@page.parts.each do | part |
+	@part = part
+	@index = (params[:index] || @index || 0).to_i
+	cssClass = "tab";
+	if @index == 0
+		cssClass += " here"
+	end
+	
+	if(@page.class_name == "ContentFromTemplatePage" or 
+		(@part.is_template and @part.filter_id.to_s == ""))
+		there_is_at_least_one_part = true;
+		first_part ||= @part;
+		first_part_index ||= @index;
+		%>
+		<a id="tab-<%=@index%>" class="<%=cssClass%>" href="#" onclick="WYSIWYG(<%=@index%>); return false;"><%=@part.name%></a>
+		<%
+	end	
+	
+	
+-%>
+
+<div style="display: none;">
+	<%= hidden_field_tag "part[#{@index}][name]", @part.name %>
+	<%= hidden_field_tag "part[#{@index}][is_template]", @part.is_template %>
+	<%= text_area_tag "part[#{@index}][content]", h(@part.content), :class => "textarea", :style => "width: 100px; height: 100px;"%>
+</div>
+
+<%-				#comes out with an id like: part[1][content]				
+@index += 1;
+
+end
+%>
+
+<%- if there_is_at_least_one_attribute 
+	attributes_tab_index = @index
+	%>
+	<a id="tab-<%=@index%>" class="tab" href="#" onclick="showAttributes(); return false;">Attributes</a>
+<%- end -%>
+
+	</div>
+	<div id="page-atts" class="pages" style="display: none;">
+		<br/>
+		<%=render :partial => 'content_attributes'%>
+	</div>
+
+	<div id="pages" class="pages">
+<%- if there_is_at_least_one_part -%>
+	<textarea id="fck_textarea" name="editor" style="height: 300px; width: 100%"><%=h(first_part.content)%></textarea>
+
+	<script type="text/javascript">
+	
+	var currently_editing = <%=first_part_index%>;
+	var attributes_tab_index = <%=attributes_tab_index%>;
+		
+	var oFCKeditor = new FCKeditor( 'fck_textarea' ) ;
+	oFCKeditor.Height = "450";
+	oFCKeditor.ReplaceTextarea() ;
+	</script>
+<%- elsif there_is_at_least_one_attribute -%>
+	<script type="text/javascript">
+		showAttributes();
+	</script>
+<%- end -%>
+	</div>
+
+</div>
+
+
+

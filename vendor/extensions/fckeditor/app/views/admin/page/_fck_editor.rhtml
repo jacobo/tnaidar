@@ -1,0 +1,86 @@
+<script src="/javascripts/fckeditor/fckeditor.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+function putIntoWYSIWYG(ElementID)
+{
+	var element = $(ElementID);
+	var oEditor = FCKeditorAPI.GetInstance('fck_textarea') ;
+	oEditor.SetHTML(element.value);
+
+//	alert("put into WYSIWYG" + ElementID);
+
+}
+function takeFromWYSIWYG(ElementID)
+{
+	var element = $(ElementID);
+	var oEditor = FCKeditorAPI.GetInstance('fck_textarea') ;
+	element.value = oEditor.GetXHTML();
+
+//	alert("took from WYSIWYG" + ElementID);
+}
+
+var currently_editing = 0;
+
+function WYSIWYG(part_index)
+{	
+	$('tab-'+currently_editing).className = "tab";
+	takeFromWYSIWYG('part['+currently_editing+'][content]');
+
+	$('tab-'+part_index).className = "tab here";
+	currently_editing = part_index;
+	putIntoWYSIWYG('part['+part_index+'][content]');
+}
+
+function saveWYSIWYG()
+{
+	takeFromWYSIWYG('part['+currently_editing+'][content]');
+}
+
+//]]>
+</script>
+
+<div id="tab-control">
+  <div id="tabs" class="tabs">
+	    <div id="tab-toolbar">
+			&nbsp;
+	    </div>
+<%-
+@page.parts.each do | part |		
+	@part = part
+	@index = (params[:index] || @index || 0).to_i
+	cssClass = "tab";
+	if @index == 0
+		cssClass += " here"
+	end
+	
+	if @part.filter_id == ""
+		%>
+		<a id="tab-<%=@index%>" class="<%=cssClass%>" href="#" onclick="WYSIWYG(<%=@index%>); return false;"><%=@part.name%></a>
+		<%
+	end	
+-%>
+
+<div style="display: none;">
+	<%= hidden_field_tag "part[#{@index}][name]", @part.name %>
+	<%= text_area_tag "part[#{@index}][content]", h(@part.content), :class => "textarea", :style => "width: 100px; height: 100px;" %>
+</div>
+
+<%-				#comes out with an id like: part[1][content]				
+@index += 1;
+
+end
+%>
+	</div>
+	<div id="pages" class="pages">
+
+<textarea id="fck_textarea" name="editor" style="height: 300px; width: 100%"><%=h(@page.parts[0].content)%></textarea>		
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	var oFCKeditor = new FCKeditor( 'fck_textarea' ) ;
+	oFCKeditor.Height = "450";
+	oFCKeditor.ReplaceTextarea();
+</script>

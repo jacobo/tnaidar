@@ -1,0 +1,38 @@
+<%- unless @page.id.nil? or flash[:page_editor_ui] -%>
+<style>
+div.select_editor {
+	float: right;
+	font-size: 12px;
+}
+div.select_editor a {
+	color: #d00;
+	text-decoration: none;
+}
+div.select_editor a:hover {
+	text-decoration: underline;
+}
+div.select_editor a.pin {
+	font-weight: bold;
+	color: #003;
+}
+</style>
+<div class="select_editor">
+<small>edit with:</small>
+<%
+	Radiant::PageEditorUI.editors.each do |editor|
+		
+		if editor_ui == editor
+			css_class = "pin";
+		else
+			css_class = "";			
+		end
+		
+		%>
+<%= " | " unless editor.name == "default" %>
+<%= link_to editor.name, page_select_editor_url(:page_editor_ui => editor.name), :class => css_class %>
+<%
+ 	end
+%>
+</div>
+
+<%- end -%>

@@ -1,0 +1,11 @@
+<%
+	# the contents on the <li> (with html stripped, is what will end up in the text field)
+	# by putting somehting into span class="informal" it will be ignored
+%>
+<ul class="pages">
+<% for page in @pages do -%>
+<li class="page"><div class="url"><%=h page.url %></div>
+<div class="title"><span class="informal"><%=page.title %></span></div>
+</li>
+<% end -%>
+</ul>

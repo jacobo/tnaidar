@@ -1,0 +1,26 @@
+<div id="tab-control">
+  <div id="tabs" class="tabs">
+    <div id="tab-toolbar">
+      <%= link_to image('plus'), 'javascript:toggle_add_part_popup()', :title => 'Add Tab' %>
+      <%= link_to image('minus'), 'javascript:tabControl.removeTab(tabControl.selected)', :title => 'Remove Tab', :confirm => 'Delete the current tab?' %>
+    </div>
+  </div>
+  <div id="pages" class="pages">
+<%= render :partial => 'part', :collection => @page.parts %>
+  </div>
+</div>
+<script type="text/javascript">
+// <![CDATA[
+  var tabControl = new TabControl('tab-control');
+<%
+@index = 0
+for @part in @page.parts do
+@index += 1
+-%>
+  tabControl.addTab('tab-<%= @index %>', '<%= @part.name %>', 'page-<%= @index %>');
+<%
+end
+-%>
+  tabControl.select(tabControl.firstTab());
+// ]]>
+</script>

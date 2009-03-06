@@ -1,0 +1,147 @@
+<link href="/plugin_assets/datetime_toolbocks/stylesheets/datetime_toolbocks.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/plugin_assets/datetime_toolbocks/stylesheets/calendar-win2k-cold-1.css" media="screen" rel="Stylesheet" type="text/css" />
+<script src="/plugin_assets/datetime_toolbocks/javascripts/datetime_toolbocks.js" type="text/javascript"></script>
+<script src="/plugin_assets/datetime_toolbocks/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/plugin_assets/datetime_toolbocks/javascripts/lang/calendar-en.js" type="text/javascript"></script>
+<script src="/plugin_assets/datetime_toolbocks/javascripts/calendar-setup.js" type="text/javascript"></script>
+
+<style>
+div.auto_complete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  margin:0px;
+  padding:0px;
+}
+ul.pages  {
+  list-style-type: none;
+  margin:0px;
+  padding:0px;
+}
+ul.pages li.selected { background-color: #ffb; }
+li.page {
+  list-style-type: none;
+  display:block;
+  margin:0 !important;
+  padding:2px !important;
+  height:32px;
+}
+li.page div.title {
+  font-weight:bold;
+  font-size:12px;
+  line-height:1.2em;
+  margin:0px;
+  padding:0px;
+}
+li.page div.url {
+  font-size:10px;
+  color:#888;
+  margin:0px;
+  padding:0px;
+}
+</style>
+<script type="text/javascript">
+//<![CDATA[
+	can_submit = true;
+	function enable_form_submit() {
+		can_submit = true;
+	}
+	function disable_form_submit() {
+		can_submit = false;		
+	}
+	var attribute_index = 0;
+	function frame_loaded(id_val, filename_val){
+		var idOfField = "attribute[" + attribute_index + "][id_to_me]"
+		//alert("frame loaded script called " + idOfField);
+        var uploadIDField = $(idOfField);
+		uploadIDField.value = id_val;
+		var filenameFieldID = "filename-" + attribute_index;
+        var filenameField = $(filenameFieldID);
+		filenameField.value = filename_val;
+		var popup = $('upload-popup');
+    	Element.toggle(popup);
+		//Element.show("delete_link_" + attribute_index);
+		Element.hide("upload_link_" + attribute_index);
+	}
+	function attribute_added() {
+	  var attNameField = $('att-name-field');
+	  var attIndexField = $('att-index-field');
+	  var index = parseInt(attIndexField.value);
+	  attIndexField.value = (index + 1).toString();
+	  Element.hide('add-att-popup');
+	  Element.hide('busy');
+	  attNameField.value = '';
+	  $('add-part-button').disabled = false;
+	  $('add-att-button').disabled = false;
+	  Field.focus(attNameField);
+	}
+    function toggle_add_att_popup() {
+      var popup = $('add-att-popup');
+      var attNameField = $('att-name-field');
+      center(popup);
+      Element.toggle(popup);
+      Field.focus(attNameField);
+    }
+	function toggle_upload_popup(index) {
+		attribute_index = index - 1;
+		var popup = $('upload-popup');
+    	center(popup);
+    	Element.toggle(popup);
+	}
+	function ensure_non_auto_complete_focus()
+	{
+		return can_submit;
+	}
+			
+//]]>
+</script>
+
+<style>
+	#page-atts-wrapper {
+		background:white none repeat scroll 0%;
+		clear:both;
+		width:100%;		
+	}
+
+	#page-atts{
+		border-color:#CDC295;
+		border-style:solid;
+		border-width:0pt 1px 1px;
+		padding:20px;
+	}
+</style>
+
+<div id="page-atts-wrapper">
+  <div id="page-atts">
+
+      <table class="fieldset" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><label for="page_page_inherit_url">Inherit From Page:</label></td>
+          <td class="field">
+
+	        	<%= text_field "page", "page_inherit_url", 
+				:maxlength => 100, :size => 40,
+				:onFocus => 'disable_form_submit();', :onBlur => 'enable_form_submit();' %>
+				<div class="auto_complete" id="inherit_from_page_auto_complete"></div>
+				<script type="text/javascript">
+					var inherit_from_page_auto_complete = new Ajax.Autocompleter(
+						'page_page_inherit_url', 
+						'inherit_from_page_auto_complete', 
+						'/admin/pages/do/inherit_from_page_auto_complete', {})
+				</script>
+
+        </tr>
+      </table>
+
+			<%= link_to image('plus'), 'javascript: toggle_add_att_popup()', :title => 'Add Attribute' %>
+		
+		<div id="attributes">
+			<%= render :partial => 'att', :collection => @page.admin_editable_attributes %>
+		</div>
+			
+  </div>
+</div>
+
+<script>
+	tabControl.addTab('tab-atts', 'Attributes', 'page-atts');  
+</script>

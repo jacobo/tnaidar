@@ -1,0 +1,6 @@
+<div class="row">
+  <p><label for="page_status_id">Status</label>
+    <%= select "page", "status_id", Status.find_all.map { |s| [s.name, s.id] } %></p>
+  <%= render_region :layout_row %>
+</div>
+<span class="clear">&nbsp;</span>

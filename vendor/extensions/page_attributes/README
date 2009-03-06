@@ -1,0 +1,36 @@
+= Page Attributes
+
+INSTALL INSTRUCTIONS:
+
+1. Add the acts_as_attachment plug-in to your plug-ins directory
+
+2. Add the following line at the end of radiant's page_controller.rb:
+
+load "#{RADIANT_ROOT}/vendor/extensions/page_attributes/app/controllers/admin/page_controller.rb"
+
+
+3. Add the following line at the end of radiant's page.rb:
+
+load "#{RADIANT_ROOT}/vendor/extensions/page_attributes/app/models/page.rb"
+
+
+4. Make the following changes to view/admin/page/edit.rhtml (in radiant core):
+
+add:
+<%= render :partial => 'attributes' %>
+after the existing:
+<%= render :partial => 'part', :collection => @page.parts %>
+
+add:
+tabControl.addTab('tab-atts', 'Attributes', 'page-atts');
+right before the existing:
+tabControl.select(tabControl.firstTab());
+
+replace:
+<form method="post">
+with:
+<form method="post" onsubmit="return ensure_non_auto_complete_focus();" id="page_edit_form">
+
+
+5. run "rake db:migrate:extensions"
+

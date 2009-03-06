@@ -1,0 +1,10 @@
+<div class="row">
+  <p><label for="page_layout_id">Layout</label>
+    <%= select "page", "layout_id", [['<inherit>', '']] + Layout.find(:all).map { |s| [s.name, s.id] } %></p>
+  <p><label for="page_class_name">Page Type</label>
+    <%= select "page", "class_name", [['<normal>', 'Page']] + Page.descendants.map { |p| [p.display_name, p.name] }.sort_by { |p| p.first } %></p>
+  <p><label for="page_status_id">Status</label>
+    <%= select "page", "status_id", Status.find_all.map { |s| [s.name, s.id] } %></p>
+  <%= render_region :layout_row %>
+</div>
+<span class="clear">&nbsp;</span>
